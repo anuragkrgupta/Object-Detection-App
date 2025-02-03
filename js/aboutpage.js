@@ -32,8 +32,3 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("msg").textContent = messages[index];
     }, 3200);
 });
-
-
-let namm = document.getElementById("abc")
-
-
