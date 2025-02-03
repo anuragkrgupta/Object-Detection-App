@@ -3,11 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Object Detection PWA</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
 </head>
 <body>
-    <h1>project testing</h1>
+    <section id="mainpage">
 
-    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aliquid repudiandae nobis ipsum.
+        <div class="navbar">
+            <div id="backicon"><a href=""><i class='bx bx-left-arrow-alt'></i></a></div>
+            <div class="appname">Vision</div>
+            <div class="loction"><i class='bx bx-map'></i></div>
+        </div>
+
+        <section  class="video-container" >
+            <div hidden class="videobox"> <video id="video" autoplay width="100%" height="100%" ></video></div>
+           <div class="canvasbox"> <canvas id="canvas"   ></canvas></div>
+        </section>
+
+     </section>
+    <!-- Load TensorFlow.js from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
+    <script src="app.js"></script>
 </body>
 </html>
