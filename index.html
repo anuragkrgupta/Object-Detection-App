@@ -14,17 +14,18 @@
     <section id="mainpage">
 
         <div class="navbar">
-            <div id="backicon"><a href=""><i class='bx bx-left-arrow-alt'></i></a></div>
+            <div id="backicon"><a href=""><i class='bx bx-camera'></i></a></div>
             <div class="appname">Vision</div>
             <div class="loction"><i class='bx bx-map'></i></div>
         </div>
 
         <section  class="video-container" >
-            <div hidden class="videobox"> <video id="video" autoplay width="100%" height="100%" ></video></div>
            <div class="canvasbox"> <canvas id="canvas"   ></canvas></div>
         </section>
 
      </section>
+     <div class="videobox"> <video id="video" autoplay width="100%" height="100%" ></video></div>
+
     <!-- Load TensorFlow.js from CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
