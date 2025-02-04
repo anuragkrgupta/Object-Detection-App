@@ -17,10 +17,10 @@ body {
   flex-direction: column;
   flex-wrap: wrap;
   overflow: hidden;
-  background-color: #faefde;
 }
 
 .navbar {
+    position: relative;
   width: 100%;
   height: 50px;
   display: flex;
@@ -28,7 +28,7 @@ body {
   align-items: center;
   font-family: sans-serif;
   font-size: 25px;
-  background-color: #f1e2cd;
+  /* background-color: #f1e2cd; */
 }
 
 #locationDetails {
@@ -39,6 +39,8 @@ body {
   /* background-color: #b1c29e; */
 }
 #flipcamra {
+    position: absolute;
+    right: 120px;
   width: 5px;
   height: 5px;
 }
