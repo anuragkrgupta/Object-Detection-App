@@ -6,10 +6,20 @@ const ctx = canvas.getContext("2d");
 let lastDetectedObject = ""; // Store the last detected object
 let lastSpokenTime = Date.now(); // Store last spoken time
 
-// Start the camera
+// Start the camera with the back camera
 async function startCamera() {
-    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-    video.srcObject = stream;
+    const constraints = {
+        video: {
+            facingMode: "environment" // Use back camera
+        }
+    };
+
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia(constraints);
+        video.srcObject = stream;
+    } catch (error) {
+        console.error("Error accessing the camera:", error);
+    }
 }
 
 // Load TensorFlow.js model
@@ -74,9 +84,3 @@ function speak(text) {
 // Initialize app
 startCamera();
 loadModel();
-
-// Register service worker for offline support
-// if ("serviceWorker" in navigator) {
-//     navigator.serviceWorker.register("sw.js")
-//     .then(() => console.log("Service Worker Registered"));
-// }
