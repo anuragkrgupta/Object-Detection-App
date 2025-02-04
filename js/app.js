@@ -2,31 +2,21 @@
 const video = document.getElementById("video");
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
-const flipButton = document.getElementById("flipcamera");
 
 let lastDetectedObject = ""; // Store the last detected object
 let lastSpokenTime = Date.now(); // Store last spoken time
-let useFrontCamera = false; // Start with back camera
-let currentStream = null;
 
-// Start the camera
+// Start the camera with the back camera
 async function startCamera() {
-    try {
-        // Stop any existing stream before starting a new one
-        if (currentStream) {
-            currentStream.getTracks().forEach(track => track.stop());
+    const constraints = {
+        video: {
+            facingMode: "environment" // Use back camera
         }
+    };
 
-        // Set camera constraints
-        const constraints = {
-            video: {
-                facingMode: useFrontCamera ? "user" : "environment"
-            }
-        };
-
-        // Get media stream
-        currentStream = await navigator.mediaDevices.getUserMedia(constraints);
-        video.srcObject = currentStream;
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia(constraints);
+        video.srcObject = stream;
     } catch (error) {
         console.error("Error accessing the camera:", error);
     }
@@ -49,6 +39,7 @@ async function detectObjects(model) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(video, 0, 0);
 
+        let newObjectDetected = false; // Track if a new object is detected
         let detectedObjects = [];
 
         predictions.forEach((prediction) => {
@@ -89,12 +80,6 @@ function speak(text) {
     const utterance = new SpeechSynthesisUtterance(text);
     window.speechSynthesis.speak(utterance);
 }
-
-// Flip camera button event
-flipButton.addEventListener("click", async () => {
-    useFrontCamera = !useFrontCamera; // Toggle camera mode
-    await startCamera(); // Restart camera with new facing mode
-});
 
 // Initialize app
 startCamera();
