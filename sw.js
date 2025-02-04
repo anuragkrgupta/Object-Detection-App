@@ -17,7 +17,6 @@ self.addEventListener("fetch", function(event) {
     })
   );  
 
-  
   event.waitUntil(
     addToCache(event.request)
   );
@@ -26,7 +25,7 @@ self.addEventListener("fetch", function(event) {
 var checkResponse = function(request) {
   return fetch(request).then(function(response) {
     if (response.status === 404) {
-      return Promise.reject("Not found");
+      return caches.match("offline.html");
     }
     return response;
   });
@@ -35,31 +34,21 @@ var checkResponse = function(request) {
 var returnFromCache = function(request) {
   return caches.open("offline").then(function(cache) {
     return cache.match(request).then(function(matching) {
-      return matching || cache.match("offline.html");
+      if (!matching || matching.status === 404) {
+        return caches.match("offline.html");
+      } else {
+        return matching;
+      }
     });
   });
 };
 
 var addToCache = function(request) {
-  return caches.open("offline").then(function(cache) {
-    return fetch(request).then(function(response) {
-      if (response.status === 200) {
-        cache.put(request, response.clone());
-      }
-      return response;
-    });
+  return fetch(request).then(function(response) {
+    if (response.ok) {
+      return caches.open("offline").then(function(cache) {
+        return cache.put(request, response.clone());
+      });
+    }
   });
 };
-
-
-
-
-  // var addToCache = function(request){
-  //   return caches.open("offline").then(function (cache) {
-  //     return fetch(request).then(function (response) {
-  //       console.log(response.url + " was cached");
-  //       return cache.put(request, response);
-  //     });
-  //   });
-  // };
-  
