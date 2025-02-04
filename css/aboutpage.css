@@ -81,6 +81,7 @@ body {
   flex-direction: column;
   gap: 10px;
   border-radius: 20px 20px 0px 0px;
+  bottom: 25px;
   animation-name: pop;
   animation-duration: 1.5s;
   /* animation-delay: 7s; */
@@ -120,6 +121,6 @@ body {
 
   to {
     /* display: flex; */
-    bottom: 15px;
+    bottom: 25px;
   }
 }
