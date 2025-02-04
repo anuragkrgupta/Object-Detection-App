@@ -30,6 +30,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }, 3200);
 });
 
-document.getElementById("btn-btn").addEventListener("click", ()=> {
-  window.location.href = "detection.html";
-} )
+
+
+const btn = document.getElementById("btn");
+btn.addEventListener("dblclick", function () {
+  console.log("clicked");
+  // Uncomment below to navigate
+  // window.location.href = "detection.html";
+});
+
