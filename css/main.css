@@ -17,7 +17,7 @@ body {
   flex-direction: column;
   flex-wrap: wrap;
   overflow: hidden;
-  background-color: #fce7c8;
+  background-color: #faefde;
 }
 
 .navbar {
@@ -28,7 +28,7 @@ body {
   align-items: center;
   font-family: sans-serif;
   font-size: 25px;
-  background-color: #e2ceb0;
+  background-color: #f1e2cd;
 }
 
 #locationDetails {
