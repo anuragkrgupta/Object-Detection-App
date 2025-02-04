@@ -2,13 +2,26 @@
 const video = document.getElementById("video");
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
+const flipButton = document.getElementById("flipcamera");
 
 let lastDetectedObject = ""; // Store the last detected object
 let lastSpokenTime = Date.now(); // Store last spoken time
+let useFrontCamera = true; // Track the camera direction
+let stream = null;
 
 // Start the camera
 async function startCamera() {
-    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+    if (stream) {
+        stream.getTracks().forEach(track => track.stop()); // Stop existing stream
+    }
+
+    const constraints = {
+        video: {
+            facingMode: useFrontCamera ? "user" : "environment"
+        }
+    };
+
+    stream = await navigator.mediaDevices.getUserMedia(constraints);
     video.srcObject = stream;
 }
 
@@ -71,12 +84,12 @@ function speak(text) {
     window.speechSynthesis.speak(utterance);
 }
 
+// Flip camera button event
+flipButton.addEventListener("click", () => {
+    useFrontCamera = !useFrontCamera;
+    startCamera();
+});
+
 // Initialize app
 startCamera();
 loadModel();
-
-// Register service worker for offline support
-// if ("serviceWorker" in navigator) {
-//     navigator.serviceWorker.register("sw.js")
-//     .then(() => console.log("Service Worker Registered"));
-// }
