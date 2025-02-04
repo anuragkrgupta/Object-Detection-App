@@ -2,27 +2,24 @@
 const video = document.getElementById("video");
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
-const flipButton = document.getElementById("flipcamera");
 
 let lastDetectedObject = ""; // Store the last detected object
 let lastSpokenTime = Date.now(); // Store last spoken time
-let useFrontCamera = true; // Track the camera direction
-let stream = null;
 
-// Start the camera
+// Start the camera with the back camera
 async function startCamera() {
-    if (stream) {
-        stream.getTracks().forEach(track => track.stop()); // Stop existing stream
-    }
-
     const constraints = {
         video: {
-            facingMode: useFrontCamera ? "user" : "environment"
+            facingMode: "environment" // Use back camera
         }
     };
 
-    stream = await navigator.mediaDevices.getUserMedia(constraints);
-    video.srcObject = stream;
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia(constraints);
+        video.srcObject = stream;
+    } catch (error) {
+        console.error("Error accessing the camera:", error);
+    }
 }
 
 // Load TensorFlow.js model
@@ -83,12 +80,6 @@ function speak(text) {
     const utterance = new SpeechSynthesisUtterance(text);
     window.speechSynthesis.speak(utterance);
 }
-
-// Flip camera button event
-flipButton.addEventListener("click", () => {
-    useFrontCamera = !useFrontCamera;
-    startCamera();
-});
 
 // Initialize app
 startCamera();
