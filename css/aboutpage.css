@@ -74,14 +74,13 @@ body {
 .popup {
   position: relative;
   width: 70%;
-  height: auto;
+  height: 30%;
   background-color: #5d92e8;
   display: flex;
   align-items: center;
   flex-direction: column;
   gap: 10px;
   border-radius: 20px 20px 0px 0px;
-  bottom: 25px;
   animation-name: pop;
   animation-duration: 1.5s;
   /* animation-delay: 7s; */
@@ -97,6 +96,10 @@ body {
   text-align: center;
   padding: 30px 0px;
   color: #efeeee;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-weight: bold;
 }
 
 .btn button {
