@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-
+// Redirect to detection page on double click
 const btn = document.getElementById("btn");
 btn.addEventListener("dblclick", function () {
   console.log("clicked");
