@@ -2,20 +2,27 @@
 const video = document.getElementById("video");
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
+const flipButton = document.getElementById("flipcamera");
 
 let lastDetectedObject = ""; // Store the last detected object
 let lastSpokenTime = Date.now(); // Store last spoken time
+let useFrontCamera = false; // Start with back camera
+let stream = null;
 
-// Start the camera with the back camera
+// Start the camera
 async function startCamera() {
+    if (stream) {
+        stream.getTracks().forEach(track => track.stop()); // Stop existing stream
+    }
+
     const constraints = {
         video: {
-            facingMode: "environment" // Use back camera
+            facingMode: useFrontCamera ? "user" : "environment"
         }
     };
 
     try {
-        const stream = await navigator.mediaDevices.getUserMedia(constraints);
+        stream = await navigator.mediaDevices.getUserMedia(constraints);
         video.srcObject = stream;
     } catch (error) {
         console.error("Error accessing the camera:", error);
@@ -39,7 +46,6 @@ async function detectObjects(model) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(video, 0, 0);
 
-        let newObjectDetected = false; // Track if a new object is detected
         let detectedObjects = [];
 
         predictions.forEach((prediction) => {
@@ -80,6 +86,12 @@ function speak(text) {
     const utterance = new SpeechSynthesisUtterance(text);
     window.speechSynthesis.speak(utterance);
 }
+
+// Flip camera button event
+flipButton.addEventListener("click", () => {
+    useFrontCamera = !useFrontCamera; // Toggle camera
+    startCamera(); // Restart camera with new facing mode
+});
 
 // Initialize app
 startCamera();
