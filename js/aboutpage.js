@@ -29,3 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("msg").textContent = messages[index];
   }, 3200);
 });
+
+document.getElementById("btn-btn").addEventListener("click", ()=> {
+  window.location.href = "index.html";
+} )
