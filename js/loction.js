@@ -47,7 +47,7 @@ document.getElementById("locationBtn").addEventListener("click", function () {
 
 function speakText(text) {
     let speech = new SpeechSynthesisUtterance(text);
-    speech.lang = "en-US"; // language
+    speech.lang = "hi-IN"; // language
     // speech.lang = "hi-IN"; // Set karo hind
     speech.rate = 1; // Speed set kare
     speech.pitch = 1; // pitchh ke liye
