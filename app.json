@@ -10,7 +10,7 @@
   "orientation": "any",
   "icons": [
       {
-          "src": "/data/logo.png",
+          "src": "/data/app logo.png",
           "sizes": "1024x1024"
       }
   ]
