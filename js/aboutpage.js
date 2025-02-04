@@ -36,6 +36,6 @@ const btn = document.getElementById("btn");
 btn.addEventListener("dblclick", function () {
   console.log("clicked");
   // Uncomment below to navigate
-  // window.location.href = "detection.html";
+  window.location.href = "detection.html";
 });
 
