@@ -31,5 +31,5 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.getElementById("btn-btn").addEventListener("click", ()=> {
-  window.location.href = "index.html";
+  window.location.href = "detection.html";
 } )
