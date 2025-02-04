@@ -7,23 +7,26 @@ const flipButton = document.getElementById("flipcamera");
 let lastDetectedObject = ""; // Store the last detected object
 let lastSpokenTime = Date.now(); // Store last spoken time
 let useFrontCamera = false; // Start with back camera
-let stream = null;
+let currentStream = null;
 
 // Start the camera
 async function startCamera() {
-    if (stream) {
-        stream.getTracks().forEach(track => track.stop()); // Stop existing stream
-    }
-
-    const constraints = {
-        video: {
-            facingMode: useFrontCamera ? "user" : "environment"
-        }
-    };
-
     try {
-        stream = await navigator.mediaDevices.getUserMedia(constraints);
-        video.srcObject = stream;
+        // Stop any existing stream before starting a new one
+        if (currentStream) {
+            currentStream.getTracks().forEach(track => track.stop());
+        }
+
+        // Set camera constraints
+        const constraints = {
+            video: {
+                facingMode: useFrontCamera ? "user" : "environment"
+            }
+        };
+
+        // Get media stream
+        currentStream = await navigator.mediaDevices.getUserMedia(constraints);
+        video.srcObject = currentStream;
     } catch (error) {
         console.error("Error accessing the camera:", error);
     }
@@ -88,9 +91,9 @@ function speak(text) {
 }
 
 // Flip camera button event
-flipButton.addEventListener("click", () => {
-    useFrontCamera = !useFrontCamera; // Toggle camera
-    startCamera(); // Restart camera with new facing mode
+flipButton.addEventListener("click", async () => {
+    useFrontCamera = !useFrontCamera; // Toggle camera mode
+    await startCamera(); // Restart camera with new facing mode
 });
 
 // Initialize app
