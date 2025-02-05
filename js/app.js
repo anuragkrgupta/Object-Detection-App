@@ -6,25 +6,42 @@ const ctx = canvas.getContext("2d");
 let lastDetectedObject = ""; // Store the last detected object
 let lastSpokenTime = Date.now(); // Store last spoken time
 
-document.getElementById("flipcamra").addEventListener("click", function() {
-    window.location.href = "detectionfront.html";
-});
-
-
-// Start the camera with the back camera
 async function startCamera() {
+    // Get the stored camera mode, default to "environment" if not set
+    let cameraMode = localStorage.getItem("cameraMode") || "environment";
+
     const constraints = {
         video: {
-            facingMode: "environment" // Use back camera
+            facingMode: cameraMode // Use stored or default camera mode
         }
     };
 
     try {
         const stream = await navigator.mediaDevices.getUserMedia(constraints);
-        video.srcObject = stream;
+        document.getElementById("video").srcObject = stream;
     } catch (error) {
         console.error("Error accessing the camera:", error);
     }
+}
+
+// Event listener to toggle and restart the camera
+document.getElementById("flipcamra").addEventListener("click", function() {
+    // Get the current mode and toggle
+    let currentMode = localStorage.getItem("cameraMode") || "environment";
+    let newMode = currentMode === "user" ? "environment" : "user";
+
+    // Store the new mode in localStorage
+    localStorage.setItem("cameraMode", newMode);
+
+    console.log("Camera mode switched to:", newMode);
+
+    // Restart the camera with the new mode
+    startCamera();
+});
+
+// Ensure localStorage has "environment" as default if not already set
+if (!localStorage.getItem("cameraMode")) {
+    localStorage.setItem("cameraMode", "environment");
 }
 
 // Load TensorFlow.js model
