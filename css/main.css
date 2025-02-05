@@ -39,10 +39,12 @@ body {
   /* background-color: #b1c29e; */
 }
 #flipcamra {
-    position: absolute;
-    right: 120px;
-  width: 5px;
-  height: 5px;
+
+  width: 10%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .loction {
   width: 5px;
@@ -54,7 +56,7 @@ body {
   height: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: end;
 }
 a {
   color: black;

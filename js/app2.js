@@ -6,16 +6,15 @@ const ctx = canvas.getContext("2d");
 let lastDetectedObject = ""; // Store the last detected object
 let lastSpokenTime = Date.now(); // Store last spoken time
 
+
 document.getElementById("flipcamra").addEventListener("click", function() {
-    window.location.href = "detectionfront.html";
+    window.location.href = "detection.html";
 });
-
-
-// Start the camera with the back camera
+// Start the camera with the front camera
 async function startCamera() {
     const constraints = {
         video: {
-            facingMode: "environment" // Use back camera
+            facingMode: "user" // Use front camera
         }
     };
 
