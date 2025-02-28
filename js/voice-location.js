@@ -3,7 +3,8 @@ if ('webkitSpeechRecognition' in window) {
     const recognition = new webkitSpeechRecognition();
     recognition.continuous = true; // Keep recognition on
     recognition.interimResults = false;
-    recognition.lang = 'en-US';
+    recognition.lang = 'en-IN';
+    recognition.lang = 'hi-IN';
 
     const loadingIndicator = document.getElementById('loadingIndicator');
     const locationDetails = document.getElementById('locationDetails');
@@ -119,7 +120,7 @@ function showError(error) {
 
 function speakText(text) {
     const speech = new SpeechSynthesisUtterance(text);
-    speech.lang = 'en-US'; // Set language
+    speech.lang = 'hi-IN'; // Set language
     speech.rate = 1; // Set speed
     speech.pitch = 1; // Set pitch
     window.speechSynthesis.speak(speech);
