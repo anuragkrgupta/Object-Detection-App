@@ -9,7 +9,7 @@ if ('webkitSpeechRecognition' in window) {
     const locationDetails = document.getElementById('locationDetails');
     const locationBtn = document.getElementById('locationBtn');
     const microphoneIcon = locationBtn.querySelector('i');
-    let isRecognitionActive = false;
+    let isRecognitionActive = true; // Start recognition initially
 
     recognition.onresult = (event) => {
         const speechResult = event.results[event.resultIndex][0].transcript.toLowerCase();
@@ -30,6 +30,11 @@ if ('webkitSpeechRecognition' in window) {
             recognition.start(); // Restart recognition if it should be active
         }
     };
+
+    // Start speech recognition automatically
+    recognition.start();
+    loadingIndicator.style.display = 'block';
+    console.log("Speech recognition started");
 
     locationBtn.addEventListener('click', () => {
         if (microphoneIcon.classList.contains('bx-microphone-off')) {
