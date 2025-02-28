@@ -11,10 +11,6 @@ if ('webkitSpeechRecognition' in window) {
     const microphoneIcon = locationBtn.querySelector('i');
     let isRecognitionActive = false;
 
-    recognition.start();
-    loadingIndicator.style.display = 'block';
-
-    
     recognition.onresult = (event) => {
         const speechResult = event.results[event.resultIndex][0].transcript.toLowerCase();
         if (speechResult.includes('location')) {
