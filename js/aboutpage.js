@@ -34,8 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // Redirect to detection page on double click
 const btn = document.getElementById("aboutPage");
 btn.addEventListener("dblclick", function () {
-  console.log("clicked");
-  // Uncomment below to navigate
+  // console.log("clicked");
   window.location.href = "detection.html";
 });
 
