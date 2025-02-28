@@ -17,10 +17,20 @@ async function startCamera() {
     };
 
     try {
+        // Check for camera permissions
+        const permission = await navigator.permissions.query({ name: 'camera' });
+
+        if (permission.state === 'denied') {
+            console.error("Camera access denied");
+            alert("Camera access is denied. Please enable camera access in your browser settings.");
+            return;
+        }
+
         const stream = await navigator.mediaDevices.getUserMedia(constraints);
         document.getElementById("video").srcObject = stream;
     } catch (error) {
         console.error("Error accessing the camera:", error);
+        alert("Error accessing the camera. Please check your camera settings and permissions.");
     }
 }
 
