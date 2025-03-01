@@ -3,8 +3,7 @@ if ('webkitSpeechRecognition' in window) {
     const recognition = new webkitSpeechRecognition();
     recognition.continuous = true; // Keep recognition on
     recognition.interimResults = false;
-    recognition.lang = 'en-IN';
-    recognition.lang = 'hi-IN';
+    recognition.lang = 'hi-IN'; // Set language only once
 
     const loadingIndicator = document.getElementById('loadingIndicator');
     const locationDetails = document.getElementById('locationDetails');
@@ -17,16 +16,16 @@ if ('webkitSpeechRecognition' in window) {
         if (speechResult.includes('location')) {
             getLocation();
         }
-        loadingIndicator.style.display = 'none';
+        // loadingIndicator.style.display = 'none';
     };
 
     recognition.onerror = (event) => {
         console.error('Speech recognition error', event);
-        loadingIndicator.style.display = 'none';
+        // loadingIndicator.style.display = 'none';
     };
 
     recognition.onend = () => {
-        loadingIndicator.style.display = 'none';
+        // loadingIndicator.style.display = 'none';
         if (isRecognitionActive) {
             recognition.start(); // Restart recognition if it should be active
         }
@@ -37,7 +36,9 @@ if ('webkitSpeechRecognition' in window) {
     loadingIndicator.style.display = 'block';
     console.log("Speech recognition started");
 
-    locationBtn.addEventListener('click', () => {
+    // Add event listener to toggle recognition on double-click anywhere on the screen
+    document.addEventListener('dblclick', function () {
+        const microphoneIcon = locationBtn.querySelector('i');
         if (microphoneIcon.classList.contains('bx-microphone-off')) {
             microphoneIcon.classList.remove('bx-microphone-off');
             microphoneIcon.classList.add('bx-microphone');
