@@ -10,7 +10,7 @@
   "orientation": "any",
   "icons": [
     {
-      "src": "/data/app logo.png",
+      "src": "data/VISion logo.png",
       "sizes": "1024x1024",
       "type": "image/png"
     }
