@@ -1,3 +1,3 @@
 setTimeout(function() {
     window.location.href = "aboutpage.html";
-}, 3000);
+}, 3100);
