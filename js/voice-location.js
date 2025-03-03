@@ -38,7 +38,7 @@ if ("webkitSpeechRecognition" in window) {
     };
   
     // Start speech recognition automatically
-    recognition.start();
+    // recognition.start();
     loadingIndicator.style.display = "block"; // Show loading indicator
     console.log("Speech recognition started");
   
