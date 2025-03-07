@@ -64,10 +64,10 @@ async function detectObjects(model) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         // Mirror effect for video
-        // ctx.save();
-        // ctx.scale(-1, 1);
-        // ctx.drawImage(video, -canvas.width, 0, canvas.width, canvas.height);
-        // ctx.restore();
+        ctx.save();
+        ctx.scale(1, 1);
+        ctx.drawImage(video, -canvas.width, 0, canvas.width, canvas.height);
+        ctx.restore();
 
         // Object detection
         const predictions = await model.detect(video);
