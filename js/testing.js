@@ -65,7 +65,7 @@ async function detectObjects(model) {
 
         // Mirror effect for video
         ctx.save();
-        ctx.scale(1, 1);
+        ctx.scale(-1, 1);
         ctx.drawImage(video, -canvas.width, 0, canvas.width, canvas.height);
         ctx.restore();
 
