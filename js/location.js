@@ -3,7 +3,8 @@ const locationDetails = document.getElementById("locationDetails");
 // Add event listener for triple tap to get location
 let tapCount = 0;
 let tapTimeout;
-document.addEventListener("click", function () {
+
+function handleTap() {
   tapCount++;
   clearTimeout(tapTimeout);
   tapTimeout = setTimeout(() => {
@@ -12,7 +13,10 @@ document.addEventListener("click", function () {
     }
     tapCount = 0;
   }, 300); // Reset tap count after 300ms
-});
+}
+
+document.addEventListener("click", handleTap);
+document.addEventListener("touchstart", handleTap);
 
 // Function to get the location using Geolocation API
 function getLocation() {
