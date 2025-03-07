@@ -153,3 +153,7 @@ function speak(text) {
 // ✅ Initialize the app
 startCamera();
 loadModel();
+
+screen.orientation.lock('portrait').catch(function(error) {
+    console.error('Orientation lock failed:', error);
+});

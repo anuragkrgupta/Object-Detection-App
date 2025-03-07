@@ -38,3 +38,6 @@ btn.addEventListener("dblclick", function () {
   window.location.href = "detection.html";
 });
 
+screen.orientation.lock('portrait').catch(function(error) {
+  console.error('Orientation lock failed:', error);
+});
