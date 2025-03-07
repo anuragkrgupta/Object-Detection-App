@@ -123,7 +123,7 @@ async function detectObjects(model) {
 
         // Speak if no objects are detected
         if (Object.keys(currentDetectedObjects).length === 0) {
-            if (Date.now() - lastSpokenNoObjectTime > 30000 && !isVoiceCommandActive) {
+            if (Date.now() - lastSpokenNoObjectTime > 8000 && !isVoiceCommandActive) {
                 speak("I am not able to detect any object.");
                 lastSpokenNoObjectTime = Date.now();
             }
