@@ -1,22 +1,22 @@
 const locationDetails = document.getElementById("locationDetails");
 
-// Add event listener for triple tap to get location
+// Add event listener for double tap to toggle location access
 let tapCount = 0;
 let tapTimeout;
 
-document.addEventListener("touchstart", function() {
+function handleTap() {
   tapCount++;
   clearTimeout(tapTimeout);
   tapTimeout = setTimeout(() => {
-    if (tapCount === 3) {
-      getLocation(); // Call getLocation on triple tap
+    if (tapCount === 2) {
+      getLocation(); // Call getLocation on double tap
     }
     tapCount = 0;
   }, 300); // Reset tap count after 300ms
-});
+}
 
-// document.addEventListener("click", handleTap);
-
+document.addEventListener("click", handleTap);
+document.addEventListener("touchstart", handleTap);
 
 // Function to get the location using Geolocation API
 function getLocation() {
