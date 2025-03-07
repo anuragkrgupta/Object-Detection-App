@@ -4,7 +4,7 @@ const locationDetails = document.getElementById("locationDetails");
 let tapCount = 0;
 let tapTimeout;
 
-function handleTap() {
+document.addEventListener("touchstart", function() {
   tapCount++;
   clearTimeout(tapTimeout);
   tapTimeout = setTimeout(() => {
@@ -13,10 +13,10 @@ function handleTap() {
     }
     tapCount = 0;
   }, 300); // Reset tap count after 300ms
-}
+});
 
-document.addEventListener("click", handleTap);
-document.addEventListener("touchstart", handleTap);
+// document.addEventListener("click", handleTap);
+
 
 // Function to get the location using Geolocation API
 function getLocation() {
