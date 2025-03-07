@@ -1,4 +1,3 @@
-
 const video = document.getElementById("video");
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
@@ -69,7 +68,12 @@ async function detectObjects(model) {
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(video, 0, 0);
+
+        // Apply mirror effect
+        ctx.save();
+        ctx.scale(-1, 1);
+        ctx.drawImage(video, -video.videoWidth, 0, video.videoWidth, video.videoHeight);
+        ctx.restore();
 
         let newObjectDetected = false; // Track if a new object is detected
         let detectedObjects = [];
@@ -81,7 +85,7 @@ async function detectObjects(model) {
             ctx.strokeStyle = "green";
             ctx.lineWidth = 2;
             ctx.strokeRect(
-                prediction.bbox[0],
+                canvas.width - prediction.bbox[0] - prediction.bbox[2], // Adjust for mirror effect
                 prediction.bbox[1],
                 prediction.bbox[2],
                 prediction.bbox[3]
@@ -90,7 +94,7 @@ async function detectObjects(model) {
             // Draw label
             ctx.fillStyle = "green";
             ctx.font = "16px Arial";
-            ctx.fillText(prediction.class, prediction.bbox[0], prediction.bbox[1] - 5);
+            ctx.fillText(prediction.class, canvas.width - prediction.bbox[0] - prediction.bbox[2], prediction.bbox[1] - 5); // Adjust for mirror effect
         });
 
         // Convert detected objects array to a string
