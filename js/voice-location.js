@@ -1,18 +1,71 @@
-const locationDetails = document.getElementById("locationDetails");
+// Check if the browser supports the Web Speech API
+if ("webkitSpeechRecognition" in window) {
+  const recognition = new webkitSpeechRecognition();
+  recognition.continuous = true; // Keep recognition on
+  recognition.interimResults = false; // Do not return interim results
+  recognition.lang = "en-IN"; // Set language to English (India)
 
-// Add event listener for triple tap to get location
-let tapCount = 0;
-let tapTimeout;
-document.addEventListener("click", function () {
-  tapCount++;
-  clearTimeout(tapTimeout);
-  tapTimeout = setTimeout(() => {
-    if (tapCount === 3) {
-      getLocation(); // Call getLocation on triple tap
+  const loadingIndicator = document.getElementById("loadingIndicator");
+  const locationDetails = document.getElementById("locationDetails");
+  const locationBtn = document.getElementById("locationBtn");
+  const microphoneIcon = locationBtn.querySelector("i");
+  let isRecognitionActive = true; // Start recognition initially
+
+  // Event handler for speech recognition results
+  recognition.onresult = (event) => {
+    if (event.results && event.results[event.resultIndex]) {
+      const speechResult = event.results[event.resultIndex][0].transcript.toLowerCase();
+      console.log("Speech result: ", speechResult); // Log the speech result for debugging
+      if (speechResult.includes("location")) {
+        // Disable object detection speech before getting location
+        document.dispatchEvent(new CustomEvent('disableObjectDetectionSpeech'));
+        getLocation(); // Call getLocation if "location" is mentioned
+      }
     }
-    tapCount = 0;
-  }, 300); // Reset tap count after 300ms
-});
+    loadingIndicator.style.display = "none"; // Hide loading indicator
+  };
+
+  // Event handler for speech recognition errors
+  recognition.onerror = (event) => {
+    console.error("Speech recognition error", event);
+    loadingIndicator.style.display = "none"; // Hide loading indicator
+  };
+
+  // Event handler for when speech recognition ends
+  recognition.onend = () => {
+    loadingIndicator.style.display = "none"; // Hide loading indicator
+    if (isRecognitionActive) {
+      recognition.start(); // Restart recognition if it should be active
+    }
+  };
+
+  // Start speech recognition automatically
+  // recognition.start();
+  loadingIndicator.style.display = "block"; // Show loading indicator
+  console.log("Speech recognition started");
+
+  // Add event listener to toggle recognition on double-click anywhere on the screen
+  document.addEventListener("dblclick", function () {
+    const microphoneIcon = locationBtn.querySelector("i");
+    if (microphoneIcon.classList.contains("bx-microphone-off")) {
+      microphoneIcon.classList.remove("bx-microphone-off");
+      microphoneIcon.classList.add("bx-microphone");
+      isRecognitionActive = true;
+      recognition.start();
+      loadingIndicator.style.display = "block"; // Show loading indicator
+      console.log("Speech recognition started");
+    } else {
+      microphoneIcon.classList.remove("bx-microphone");
+      microphoneIcon.classList.add("bx-microphone-off");
+      isRecognitionActive = false;
+      recognition.stop();
+      loadingIndicator.style.display = "none"; // Hide loading indicator
+      console.log("Speech recognition stopped");
+    }
+  });
+} else {
+  console.error("Web Speech API is not supported in this browser.");
+}
 
 // Function to get the location using Geolocation API
 function getLocation() {
@@ -46,7 +99,7 @@ function showPosition(position) {
         `;
 
         // Convert address to speech
-        const textToSpeak = `You are in ${fullAddress}. State: ${state}.`;
+        const textToSpeak = `Your current location is ${fullAddress}. State: ${state}.`;
         speakText(textToSpeak);
       } else {
         const errorMessage = "Location not found";
