@@ -16,11 +16,6 @@ if ("webkitSpeechRecognition" in window) {
     if (event.results && event.results[event.resultIndex]) {
       const speechResult = event.results[event.resultIndex][0].transcript.toLowerCase();
       console.log("Speech result: ", speechResult); // Log the speech result for debugging
-      if (speechResult.includes("location")) {
-        // Disable object detection speech before getting location
-        document.dispatchEvent(new CustomEvent('disableObjectDetectionSpeech'));
-        getLocation(); // Call getLocation if "location" is mentioned
-      }
     }
     loadingIndicator.style.display = "none"; // Hide loading indicator
   };
@@ -40,28 +35,22 @@ if ("webkitSpeechRecognition" in window) {
   };
 
   // Start speech recognition automatically
-  // recognition.start();
+  recognition.start();
   loadingIndicator.style.display = "block"; // Show loading indicator
   console.log("Speech recognition started");
 
-  // Add event listener to toggle recognition on double-click anywhere on the screen
-  document.addEventListener("dblclick", function () {
-    const microphoneIcon = locationBtn.querySelector("i");
-    if (microphoneIcon.classList.contains("bx-microphone-off")) {
-      microphoneIcon.classList.remove("bx-microphone-off");
-      microphoneIcon.classList.add("bx-microphone");
-      isRecognitionActive = true;
-      recognition.start();
-      loadingIndicator.style.display = "block"; // Show loading indicator
-      console.log("Speech recognition started");
-    } else {
-      microphoneIcon.classList.remove("bx-microphone");
-      microphoneIcon.classList.add("bx-microphone-off");
-      isRecognitionActive = false;
-      recognition.stop();
-      loadingIndicator.style.display = "none"; // Hide loading indicator
-      console.log("Speech recognition stopped");
-    }
+  // Add event listener for triple tap to get location
+  let tapCount = 0;
+  let tapTimeout;
+  document.addEventListener("click", function () {
+    tapCount++;
+    clearTimeout(tapTimeout);
+    tapTimeout = setTimeout(() => {
+      if (tapCount === 3) {
+        getLocation(); // Call getLocation on triple tap
+      }
+      tapCount = 0;
+    }, 3000); // Reset tap count after 3s
   });
 } else {
   console.error("Web Speech API is not supported in this browser.");
