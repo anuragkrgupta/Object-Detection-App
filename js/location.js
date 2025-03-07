@@ -15,7 +15,7 @@ function handleTap() {
   }, 300); // Reset tap count after 300ms
 }
 
-document.addEventListener("click", handleTap);
+// document.addEventListener("click", handleTap);
 document.addEventListener("touchstart", handleTap);
 
 // Function to get the location using Geolocation API
