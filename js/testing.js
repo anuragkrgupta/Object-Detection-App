@@ -7,7 +7,7 @@ let lastSpokenObject = ""; // Store the last spoken object
 let lastSpokenNoObjectTime = Date.now(); // Store last time no object was spoken
 let isVoiceCommandActive = false; // Flag to track voice command status
 
-// ✅ Function to start the camera
+// Function to start the camera
 async function startCamera() {
     let cameraMode = localStorage.getItem("cameraMode") || "environment";
 
@@ -24,7 +24,7 @@ async function startCamera() {
     }
 }
 
-// ✅ Camera flip button functionality
+// Camera flip button functionality
 document.getElementById("flipcamra").addEventListener("click", function () {
     let currentMode = localStorage.getItem("cameraMode") || "environment";
     let newMode = currentMode === "user" ? "environment" : "user";
@@ -35,12 +35,12 @@ document.getElementById("flipcamra").addEventListener("click", function () {
     startCamera(); // Restart the camera
 });
 
-// ✅ Ensure localStorage has "environment" as default
+// Ensure localStorage has "environment" as default
 if (!localStorage.getItem("cameraMode")) {
     localStorage.setItem("cameraMode", "environment");
 }
 
-// ✅ Function to load TensorFlow.js model
+// Function to load TensorFlow.js model
 async function loadModel() {
     console.log("⏳ Loading model...");
     const model = await cocoSsd.load();
@@ -48,7 +48,7 @@ async function loadModel() {
     detectObjects(model);
 }
 
-// ✅ Function to detect objects and update canvas
+// Function to detect objects and update canvas
 async function detectObjects(model) {
     async function renderFrame() {
         if (!video.videoWidth || !video.videoHeight) {
@@ -65,7 +65,6 @@ async function detectObjects(model) {
 
         // Mirror effect for video
         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
 
         // Object detection
         const predictions = await model.detect(video);
@@ -104,8 +103,11 @@ async function detectObjects(model) {
                 Date.now() - lastDetectedObjects[objectName] > 5000 // Reannounce after timeout
             ) {
                 if (objectName !== lastSpokenObject && !isVoiceCommandActive) {
-                    speak(objectName);
-                    lastSpokenObject = objectName;
+                    // Debounce speech synthesis
+                    if (!window.speechSynthesis.speaking) {
+                        speak(objectName);
+                        lastSpokenObject = objectName;
+                    }
                 }
                 lastDetectedObjects[objectName] = Date.now();
             }
@@ -143,14 +145,19 @@ document.addEventListener('locationSpeechCompleted', function() {
     isVoiceCommandActive = false; // Re-enable object detection speech
 });
 
-// ✅ Function to speak detected objects
+// Function to speak detected objects
 function speak(text) {
     if (text.trim() === "") return; // Avoid speaking empty text
     const utterance = new SpeechSynthesisUtterance(text);
     window.speechSynthesis.speak(utterance);
 }
 
-// ✅ Initialize the app
+// Add event listener to stop speech when finished
+window.speechSynthesis.addEventListener('end', () => {
+    // Speech has ended, you can now speak again
+});
+
+// Initialize the app
 startCamera();
 loadModel();
 
